@@ -9,7 +9,7 @@ WIDTH = 800
 HEIGHT = 600
 GRID_SIZE = 40  # For grid-based movement
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Frogger Clone")
+pygame.display.set_caption("Frogger Game")
 
 # Colors
 WHITE = (255, 255, 255)
@@ -33,7 +33,7 @@ MAROON = (128,0,0)
 NAVY = (0,0,128)
 OLIVE = (128,128,0)
 TEAL = (0,128,128)
-    
+
 
 
 # Player class
@@ -103,6 +103,7 @@ while running:
         if (player.x == obstacle.x and player.y == obstacle.y):
             print("Collision! Game Over!")
             running = False
+            
 
     # Draw everything
     screen.fill(WHITE)

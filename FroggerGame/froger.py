@@ -7,7 +7,7 @@ pygame.init()
 # Screen settings
 WIDTH = 800
 HEIGHT = 600
-GRID_SIZE = 40  # For grid-based movement
+GRID_SIZE = 40
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Frogger Game")
 
@@ -34,7 +34,12 @@ NAVY = (0,0,128)
 OLIVE = (128,128,0)
 TEAL = (0,128,128)
 
+# Load the start screen image
+intro_image = pygame.image.load("Intro.png")
+intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))  # Scale to fit the screen
 
+# Font for start screen text
+font = pygame.font.Font(None, 74)
 
 # Player class
 class Player:
@@ -66,17 +71,20 @@ class Obstacle:
     def move(self):
         self.x += self.speed
         if self.x > WIDTH:
-            self.x = -GRID_SIZE  # Reset to left side
+            self.x = -GRID_SIZE
         elif self.x < -GRID_SIZE:
-            self.x = WIDTH  # Reset to right side
+            self.x = WIDTH
 
     def draw(self):
         pygame.draw.rect(screen, RED, (self.x, self.y, GRID_SIZE, GRID_SIZE))
 
 # Game setup
-player = Player(WIDTH // 2, HEIGHT - GRID_SIZE)  # Start at bottom center
-obstacles = [Obstacle(random.randint(0, WIDTH), i * GRID_SIZE, 2) for i in range(1, 5)]  # Some obstacles
+player = Player(WIDTH // 2, HEIGHT - GRID_SIZE)
+obstacles = [Obstacle(random.randint(0, WIDTH), i * GRID_SIZE, 2) for i in range(1, 5)]
 clock = pygame.time.Clock()
+
+# Game state
+game_state = "start"
 
 # Game loop
 running = True
@@ -85,34 +93,45 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
-                player.move("up")
-            elif event.key == pygame.K_DOWN:
-                player.move("down")
-            elif event.key == pygame.K_LEFT:
-                player.move("left")
-            elif event.key == pygame.K_RIGHT:
-                player.move("right")
+            if game_state == "start" and event.key == pygame.K_RETURN:
+                game_state = "playing"
+            elif game_state == "playing":
+                if event.key == pygame.K_UP:
+                    player.move("up")
+                elif event.key == pygame.K_DOWN:
+                    player.move("down")
+                elif event.key == pygame.K_LEFT:
+                    player.move("left")
+                elif event.key == pygame.K_RIGHT:
+                    player.move("right")
 
-    # Update obstacles
-    for obstacle in obstacles:
-        obstacle.move()
+    # Handle game states
+    if game_state == "start":
+        # Draw the intro image
+        screen.blit(intro_image, (0, 0))
+        # Draw "Press Enter to Start" text
+        # text = font.render("Press Enter to Start", True, BLACK)
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(text, text_rect)
 
-    # Collision detection
-    for obstacle in obstacles:
-        if (player.x == obstacle.x and player.y == obstacle.y):
-            print("Collision! Game Over!")
-            running = False
-            
+    elif game_state == "playing":
+        # Update obstacles
+        for obstacle in obstacles:
+            obstacle.move()
 
-    # Draw everything
-    screen.fill(WHITE)
-    player.draw()
-    for obstacle in obstacles:
-        obstacle.draw()
+        # Collision detection
+        for obstacle in obstacles:
+            if (player.x == obstacle.x and player.y == obstacle.y):
+                print("Collision! Game Over!")
+                running = False
+
+        # Draw everything
+        screen.fill(WHITE)
+        player.draw()
+        for obstacle in obstacles:
+            obstacle.draw()
+
     pygame.display.flip()
-
-    clock.tick(60)  # 60 FPS
+    clock.tick(60)
 
 pygame.quit()
-#committ to see changes on githuubbb

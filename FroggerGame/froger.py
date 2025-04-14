@@ -111,7 +111,7 @@ while running:
         screen.blit(intro_image, (0, 0))
         # Draw "Press Enter to Start" text
         # text = font.render("Press Enter to Start", True, BLACK)
-        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        # text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
         screen.blit(text, text_rect)
 
     elif game_state == "playing":

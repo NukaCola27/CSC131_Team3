@@ -34,12 +34,28 @@ NAVY = (0,0,128)
 OLIVE = (128,128,0)
 TEAL = (0,128,128)
 
+# Handler for the sprite sheet images
+class SpriteSheet:
+    def __init__(self, filename):
+        self.sprite_sheet = pygame.image.load(filename).convert_alpha()
+
+    def get_image(self, x, y, width, height):
+        image = pygame.Surface((width, height)).convert()
+        image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
+        return image
+#load sprite sheet
+sprite_sheet = SpriteSheet("cars.png")
+
 # Load the start screen image
 intro_image = pygame.image.load("Intro.png")
 intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))  # Scale to fit the screen
 
 # Font for start screen text
 font = pygame.font.Font(None, 74)
+
+
+
+
 
 # Player class
 class Player:

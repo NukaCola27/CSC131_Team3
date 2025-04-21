@@ -43,19 +43,27 @@ class SpriteSheet:
         image = pygame.Surface((width, height)).convert()
         image.blit(self.sprite_sheet, (0, 0), (x, y, width, height))
         return image
-#load sprite sheet
+    
+# Load sprite sheet
 sprite_sheet = SpriteSheet("cars.png")
 
 # Load the start screen image
 intro_image = pygame.image.load("Intro.png")
-intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))  # Scale to fit the screen
+intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))
 
 # Font for start screen text
 font = pygame.font.Font(None, 74)
 
+#extract the sprite
+SPRITE_WIDTH = 60
+SPRITE_HEIGHT = 100
 
+# Extract the car1 sprite from the sprite sheet
+car1 = sprite_sheet.get_image(240, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
 
-
+# Scale the car sprite to fit the grid size
+car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
+#car1 = pygame.transform.rotate(car1, -90)  # Negative angle for clockwise rotation
 
 # Player class
 class Player:
@@ -77,22 +85,27 @@ class Player:
     def draw(self):
         pygame.draw.rect(screen, GREEN, (self.x, self.y, GRID_SIZE, GRID_SIZE))
 
-# Obstacle class
+# Obstacle class (now using car1 sprite)
 class Obstacle:
     def __init__(self, x, y, speed):
         self.x = x
         self.y = y
         self.speed = speed
+        self.image = car1  # Use the car1 sprite
+        self.rect = self.image.get_rect(topleft=(x, y))  # Get the rectangle for positioning and collision
 
     def move(self):
         self.x += self.speed
+        self.rect.x = self.x  # Update the rect position
         if self.x > WIDTH:
             self.x = -GRID_SIZE
+            self.rect.x = self.x
         elif self.x < -GRID_SIZE:
             self.x = WIDTH
+            self.rect.x = self.x
 
     def draw(self):
-        pygame.draw.rect(screen, RED, (self.x, self.y, GRID_SIZE, GRID_SIZE))
+        screen.blit(self.image, (self.x, self.y))  # Draw the car sprite
 
 # Game setup
 player = Player(WIDTH // 2, HEIGHT - GRID_SIZE)
@@ -123,25 +136,23 @@ while running:
 
     # Handle game states
     if game_state == "start":
-        # Draw the intro image
         screen.blit(intro_image, (0, 0))
-        # Draw "Press Enter to Start" text
+        # Uncomment to add "Press Enter to Start" text if needed
         # text = font.render("Press Enter to Start", True, BLACK)
         # text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-        #screen.blit(text, text_rect)
+        # screen.blit(text, text_rect)
 
     elif game_state == "playing":
-        # Update obstacles
         for obstacle in obstacles:
             obstacle.move()
 
-        # Collision detection
+        # Collision detection using rects
+        player_rect = pygame.Rect(player.x, player.y, GRID_SIZE, GRID_SIZE)
         for obstacle in obstacles:
-            if (player.x == obstacle.x and player.y == obstacle.y):
+            if player_rect.colliderect(obstacle.rect):
                 print("Collision! Game Over!")
                 running = False
 
-        # Draw everything
         screen.fill(WHITE)
         player.draw()
         for obstacle in obstacles:

@@ -70,7 +70,7 @@ car7 = sprite_sheet.get_image(200, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row,
 
 
 # Scale the car sprite to fit the grid size
-car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
+#car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
 car2 = pygame.transform.scale(car2, (GRID_SIZE, GRID_SIZE))
 car3 = pygame.transform.scale(car3, (GRID_SIZE, GRID_SIZE))
 

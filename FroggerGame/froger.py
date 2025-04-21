@@ -55,15 +55,33 @@ intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))
 font = pygame.font.Font(None, 74)
 
 #extract the sprite
-SPRITE_WIDTH = 60
+SPRITE_WIDTH = 45
 SPRITE_HEIGHT = 100
 
 # Extract the car1 sprite from the sprite sheet
-car1 = sprite_sheet.get_image(240, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
+car1 = sprite_sheet.get_image(250, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, 5th car
+car2 = sprite_sheet.get_image(200, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, 6th car
+car3 = sprite_sheet.get_image(160, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, 7th car
+
+car4 = sprite_sheet.get_image(10, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
+car5 = sprite_sheet.get_image(74, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
+car6 = sprite_sheet.get_image(137, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
+car7 = sprite_sheet.get_image(200, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
+
 
 # Scale the car sprite to fit the grid size
 car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
-#car1 = pygame.transform.rotate(car1, -90)  # Negative angle for clockwise rotation
+car2 = pygame.transform.scale(car2, (GRID_SIZE, GRID_SIZE))
+car3 = pygame.transform.scale(car3, (GRID_SIZE, GRID_SIZE))
+
+car4 = pygame.transform.scale(car4, (GRID_SIZE, GRID_SIZE))
+car5 = pygame.transform.scale(car5, (GRID_SIZE, GRID_SIZE))
+car6 = pygame.transform.scale(car6, (GRID_SIZE, GRID_SIZE))
+car7 = pygame.transform.scale(car7, (GRID_SIZE, GRID_SIZE))
+
+
+
+car1 = pygame.transform.rotate(car1, -90)  # Negative angle for clockwise rotation
 
 # Player class
 class Player:

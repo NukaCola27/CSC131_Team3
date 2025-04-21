@@ -51,6 +51,11 @@ sprite_sheet = SpriteSheet("cars.png")
 intro_image = pygame.image.load("Intro.png")
 intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))
 
+# Frog
+frog_image = pygame.image.load("frog.png").convert_alpha()
+frog_image = pygame.transform.scale(frog_image, (GRID_SIZE, GRID_SIZE))  # Match size
+
+
 # Font for start screen text
 font = pygame.font.Font(None, 74)
 
@@ -106,7 +111,7 @@ class Player:
             self.x += self.speed
 
     def draw(self):
-        pygame.draw.rect(screen, GREEN, (self.x, self.y, GRID_SIZE, GRID_SIZE))
+        screen.blit(frog_image, (self.x, self.y))
 
 # Obstacle class (accepting a specific sprite)
 class Obstacle:

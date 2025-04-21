@@ -236,11 +236,11 @@ while running:
     # ***** Added Victory Screen ******
     elif game_state == "victory":
         screen.fill(GREEN)
-        text = font.render("You Win! Press Enter", True, WHITE)  # <<< shorter text
-        text2 = font.render("to Play Again", True, WHITE)  # <<< second short line
+        text = font.render("You Win! Press Enter", True, WHITE)
+        text2 = font.render("to Play Again", True, WHITE)
 
-        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 20))  # moved up a bit
-        text2_rect = text2.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))  # moved down a bit
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2 - 20))
+        text2_rect = text2.get_rect(center=(WIDTH // 2, HEIGHT // 2 + 20))
 
         screen.blit(text, text_rect)
         screen.blit(text2, text2_rect)

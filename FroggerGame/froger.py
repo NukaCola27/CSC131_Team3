@@ -54,34 +54,39 @@ intro_image = pygame.transform.scale(intro_image, (WIDTH, HEIGHT))
 # Font for start screen text
 font = pygame.font.Font(None, 74)
 
-#extract the sprite
-SPRITE_WIDTH = 45
+# Extract the sprites
+SPRITE_WIDTH = 40
 SPRITE_HEIGHT = 100
 
-# Extract the car1 sprite from the sprite sheet
-car1 = sprite_sheet.get_image(250, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, 5th car
-car2 = sprite_sheet.get_image(200, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, 6th car
-car3 = sprite_sheet.get_image(160, 20, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, 7th car
+# Extract the car sprites from the sprite sheet
+car1 = sprite_sheet.get_image(250, 20, SPRITE_WIDTH, SPRITE_HEIGHT)  # First row, 5th car
 
-car4 = sprite_sheet.get_image(10, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
-car5 = sprite_sheet.get_image(74, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
-car6 = sprite_sheet.get_image(137, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
-car7 = sprite_sheet.get_image(200, 440, SPRITE_WIDTH, SPRITE_HEIGHT)# First row, third column
+car2 = sprite_sheet.get_image(190, 16, SPRITE_WIDTH, SPRITE_HEIGHT)  # First row, 4th car
 
+car3 = sprite_sheet.get_image(130, 16, SPRITE_WIDTH, SPRITE_HEIGHT)  # First row, 3rd car
 
-# Scale the car sprite to fit the grid size
+car4 = sprite_sheet.get_image(10, 440, SPRITE_WIDTH, SPRITE_HEIGHT)  # Fifth row, 1st car
+car5 = sprite_sheet.get_image(74, 440, SPRITE_WIDTH, SPRITE_HEIGHT)  # Fifth row, 2nd car
+car6 = sprite_sheet.get_image(137, 440, SPRITE_WIDTH, SPRITE_HEIGHT)  # Fifth row, 3rd car
+car7 = sprite_sheet.get_image(200, 440, SPRITE_WIDTH, SPRITE_HEIGHT)  # Fifth row, 4th car
+
+# Scale the car sprites to fit the grid size
 #car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
-car2 = pygame.transform.scale(car2, (GRID_SIZE, GRID_SIZE))
-car3 = pygame.transform.scale(car3, (GRID_SIZE, GRID_SIZE))
+#car2 = pygame.transform.scale(car2, (GRID_SIZE, GRID_SIZE))
+#car3 = pygame.transform.scale(car3, (GRID_SIZE, GRID_SIZE))
+#car4 = pygame.transform.scale(car4, (GRID_SIZE, GRID_SIZE))
+#car5 = pygame.transform.scale(car5, (GRID_SIZE, GRID_SIZE))
+#car6 = pygame.transform.scale(car6, (GRID_SIZE, GRID_SIZE))
+#car7 = pygame.transform.scale(car7, (GRID_SIZE, GRID_SIZE))
 
-car4 = pygame.transform.scale(car4, (GRID_SIZE, GRID_SIZE))
-car5 = pygame.transform.scale(car5, (GRID_SIZE, GRID_SIZE))
-car6 = pygame.transform.scale(car6, (GRID_SIZE, GRID_SIZE))
-car7 = pygame.transform.scale(car7, (GRID_SIZE, GRID_SIZE))
-
-
-
-car1 = pygame.transform.rotate(car1, -90)  # Negative angle for clockwise rotation
+# Rotate all car sprites 90 degrees to the right (clockwise)
+car1 = pygame.transform.rotate(car1, -90)
+car2 = pygame.transform.rotate(car2, -90)
+car3 = pygame.transform.rotate(car3, -90)
+car4 = pygame.transform.rotate(car4, -90)
+car5 = pygame.transform.rotate(car5, -90)
+car6 = pygame.transform.rotate(car6, -90)
+car7 = pygame.transform.rotate(car7, -90)
 
 # Player class
 class Player:
@@ -103,18 +108,18 @@ class Player:
     def draw(self):
         pygame.draw.rect(screen, GREEN, (self.x, self.y, GRID_SIZE, GRID_SIZE))
 
-# Obstacle class (now using car1 sprite)
+# Obstacle class (accepting a specific sprite)
 class Obstacle:
-    def __init__(self, x, y, speed):
+    def __init__(self, x, y, speed, sprite):
         self.x = x
         self.y = y
         self.speed = speed
-        self.image = car1  # Use the car1 sprite
-        self.rect = self.image.get_rect(topleft=(x, y))  # Get the rectangle for positioning and collision
+        self.image = sprite  # Use the specified sprite
+        self.rect = self.image.get_rect(topleft=(x, y))
 
     def move(self):
         self.x += self.speed
-        self.rect.x = self.x  # Update the rect position
+        self.rect.x = self.x
         if self.x > WIDTH:
             self.x = -GRID_SIZE
             self.rect.x = self.x
@@ -123,11 +128,36 @@ class Obstacle:
             self.rect.x = self.x
 
     def draw(self):
-        screen.blit(self.image, (self.x, self.y))  # Draw the car sprite
+        screen.blit(self.image, (self.x, self.y))
 
 # Game setup
 player = Player(WIDTH // 2, HEIGHT - GRID_SIZE)
-obstacles = [Obstacle(random.randint(0, WIDTH), i * GRID_SIZE, 2) for i in range(1, 5)]
+
+# Create multiple rows of obstacles with different sprites and speeds
+obstacles = []
+# Row 1: y=40, car1, speed 2 (right)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 40, 2, car1) for _ in range(2)])
+# Row 2: y=80, car2, speed -3 (left)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 80, -3, car2) for _ in range(2)])
+
+# Row 3: y=120, car3, speed 4 (right)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 120, 4, car3) for _ in range(2)])
+# Row 4: y=160, car4, speed -2 (left)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 160, -2, car4) for _ in range(2)])
+# Row 5: y=200, car5, speed 3 (right)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 200, 3, car5) for _ in range(2)])
+# Row 6: y=240, car6, speed -4 (left)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 240, -4, car6) for _ in range(2)])
+# Row 7: y=280, car7, speed 2 (right)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 280, 2, car7) for _ in range(2)])
+# Row 8: y=320, car1, speed -3 (left)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 320, -3, car1) for _ in range(2)])
+
+# Row 9: y=360, car2, speed 1 (right)
+obstacles.extend([Obstacle(random.randint(0, WIDTH), 400, 1, car3) for _ in range(2)])
+
+
+
 clock = pygame.time.Clock()
 
 # Game state

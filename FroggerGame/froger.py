@@ -72,13 +72,13 @@ car6 = sprite_sheet.get_image(137, 440, SPRITE_WIDTH, SPRITE_HEIGHT)  # Fifth ro
 car7 = sprite_sheet.get_image(200, 440, SPRITE_WIDTH, SPRITE_HEIGHT)  # Fifth row, 4th car
 
 # Scale the car sprites to fit the grid size
-#car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
-#car2 = pygame.transform.scale(car2, (GRID_SIZE, GRID_SIZE))
-#car3 = pygame.transform.scale(car3, (GRID_SIZE, GRID_SIZE))
-#car4 = pygame.transform.scale(car4, (GRID_SIZE, GRID_SIZE))
-#car5 = pygame.transform.scale(car5, (GRID_SIZE, GRID_SIZE))
-#car6 = pygame.transform.scale(car6, (GRID_SIZE, GRID_SIZE))
-#car7 = pygame.transform.scale(car7, (GRID_SIZE, GRID_SIZE))
+# car1 = pygame.transform.scale(car1, (GRID_SIZE, GRID_SIZE))
+# car2 = pygame.transform.scale(car2, (GRID_SIZE, GRID_SIZE))
+# car3 = pygame.transform.scale(car3, (GRID_SIZE, GRID_SIZE))
+# car4 = pygame.transform.scale(car4, (GRID_SIZE, GRID_SIZE))
+# car5 = pygame.transform.scale(car5, (GRID_SIZE, GRID_SIZE))
+# car6 = pygame.transform.scale(car6, (GRID_SIZE, GRID_SIZE))
+# car7 = pygame.transform.scale(car7, (GRID_SIZE, GRID_SIZE))
 
 # Rotate all car sprites 90 degrees to the right (clockwise)
 car1 = pygame.transform.rotate(car1, -90)

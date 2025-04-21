@@ -33,6 +33,7 @@ MAROON = (128,0,0)
 NAVY = (0,0,128)
 OLIVE = (128,128,0)
 TEAL = (0,128,128)
+BLACK = (0,0,0)
 
 # Handler for the sprite sheet images
 class SpriteSheet:
@@ -131,33 +132,33 @@ class Obstacle:
         screen.blit(self.image, (self.x, self.y))
 
 # Game setup
-player = Player(WIDTH // 2, HEIGHT - GRID_SIZE)
+def initialize_game():
+ player = Player(WIDTH // 2, HEIGHT - GRID_SIZE)
+ obstacles = []
+ # Row 1: y=40, car1, speed 2 (right)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 40, 2, car1) for _ in range(2)])
+ # Row 2: y=80, car2, speed -3 (left)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 80, -3, car2) for _ in range(2)])
 
-# Create multiple rows of obstacles with different sprites and speeds
-obstacles = []
-# Row 1: y=40, car1, speed 2 (right)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 40, 2, car1) for _ in range(2)])
-# Row 2: y=80, car2, speed -3 (left)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 80, -3, car2) for _ in range(2)])
+ # Row 3: y=120, car3, speed 4 (right)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 120, 4, car3) for _ in range(2)])
+ # Row 4: y=160, car4, speed -2 (left)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 160, -2, car4) for _ in range(2)])
+ # Row 5: y=200, car5, speed 3 (right)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 200, 3, car5) for _ in range(2)])
+ # Row 6: y=240, car6, speed -4 (left)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 240, -4, car6) for _ in range(2)])
+ # Row 7: y=280, car7, speed 2 (right)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 280, 2, car7) for _ in range(2)])
+ # Row 8: y=320, car1, speed -3 (left)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 320, -3, car1) for _ in range(2)])
 
-# Row 3: y=120, car3, speed 4 (right)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 120, 4, car3) for _ in range(2)])
-# Row 4: y=160, car4, speed -2 (left)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 160, -2, car4) for _ in range(2)])
-# Row 5: y=200, car5, speed 3 (right)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 200, 3, car5) for _ in range(2)])
-# Row 6: y=240, car6, speed -4 (left)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 240, -4, car6) for _ in range(2)])
-# Row 7: y=280, car7, speed 2 (right)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 280, 2, car7) for _ in range(2)])
-# Row 8: y=320, car1, speed -3 (left)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 320, -3, car1) for _ in range(2)])
+ # Row 9: y=360, car2, speed 1 (right)
+ obstacles.extend([Obstacle(random.randint(0, WIDTH), 400, 1, car3) for _ in range(2)])
+ return player, obstacles
 
-# Row 9: y=360, car2, speed 1 (right)
-obstacles.extend([Obstacle(random.randint(0, WIDTH), 400, 1, car3) for _ in range(2)])
-
-
-
+#Game Setup 
+player, obstacles = initialize_game()
 clock = pygame.time.Clock()
 
 # Game state
@@ -181,6 +182,10 @@ while running:
                     player.move("left")
                 elif event.key == pygame.K_RIGHT:
                     player.move("right")
+            elif game_state == "game_over" and event.key == pygame.K_RETURN:    
+                # Reset the game by reinitializing player and obstacles
+                player, obstacles = initialize_game()
+                game_state = "start"    
 
     # Handle game states
     if game_state == "start":
@@ -198,13 +203,20 @@ while running:
         player_rect = pygame.Rect(player.x, player.y, GRID_SIZE, GRID_SIZE)
         for obstacle in obstacles:
             if player_rect.colliderect(obstacle.rect):
-                print("Collision! Game Over!")
-                running = False
+               # print("Collision! Game Over!")
+                game_state = "game_over"
+                break
+        if game_state == "playing":  # Only draw if still in playing state
+            screen.fill(WHITE)
+            player.draw()
+            for obstacle in obstacles:
+                obstacle.draw()
 
-        screen.fill(WHITE)
-        player.draw()
-        for obstacle in obstacles:
-            obstacle.draw()
+    elif game_state == "game_over":
+        screen.fill(BLACK)  # Black background for game over screen
+        text = font.render("""Retry? Press enter to try again""", True, WHITE)
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(text, text_rect)
 
     pygame.display.flip()
     clock.tick(60)

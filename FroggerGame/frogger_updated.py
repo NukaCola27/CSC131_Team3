@@ -161,6 +161,12 @@ def initialize_game():
  obstacles.extend([Obstacle(random.randint(0, WIDTH), 360, 1, car2) for _ in range(2)])
  return player, obstacles
 
+# load and play the music
+pygame.mixer.music.load("Cars8bit.mp3")
+pygame.mixer.music.set_volume(0.5)  # Set volume to 50%
+pygame.mixer.music.play(-1)  # Loop the music indefinitely
+
+
 #Game Setup 
 player, obstacles = initialize_game()
 clock = pygame.time.Clock()
